@@ -1,9 +1,10 @@
-import { Link } from "gatsby"
+import { graphql, Link } from "gatsby"
 import React from "react"
 import Layout from "../components/Layout"
 import * as styles from "../styles/home.module.css"
+import Img from "gatsby-image"
 
-export default function Home() {
+export default function Home({ data }) {
   return (
     <Layout>
       <section className={styles.header}>
@@ -15,12 +16,20 @@ export default function Home() {
             My Portfolio Page
           </Link>
         </div>
-        <img
-          src="/banner.png"
-          alt="Sites banner"
-          style={{ maxWidth: "100%" }}
-        />
+        <Img fluid={data.file.childrenImageSharp[0].fluid} />
       </section>
     </Layout>
   )
 }
+
+export const query = graphql`
+  query GetBannerImage {
+    file(relativePath: { eq: "banner.png" }) {
+      childrenImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
+  }
+`
